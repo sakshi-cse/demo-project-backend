@@ -5,6 +5,12 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
+      - echo "copy variables"
+      - aws s3 cp s3://demo-project-19-06-2023/env/env .
+      - mv env .env
+      - ls -la $CODEBUILD_SRC_DIR
+      - pwd $CODEBUILD_SRC_DIR
+      - cat .env
       - echo "Installing dependencies..."
       - sudo npm install
   build:
