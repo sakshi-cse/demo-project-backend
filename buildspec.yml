@@ -5,9 +5,15 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
-      - echo "copy variables"
-      - aws s3 cp s3://demo-project-19-06-2023/env/env .
-      - mv env .env
+    #  - echo "copy variables"
+     # - aws s3 cp s3://demo-project-19-06-2023/env/env .
+      #- mv env .env
+      
+       # Retrieve secret file content from AWS Systems Manager Parameter Store and store it in an environment variable
+      - export SECRET_FILE_CONTENT=$(aws ssm get-parameter --name "test-project_env" --with-decryption --query "Parameter.Value" --output text)
+      # Write the secret file content to a file
+      - echo "$SECRET_FILE_CONTENT" > .env
+      
       - ls -la $CODEBUILD_SRC_DIR
       - pwd $CODEBUILD_SRC_DIR
       - cat .env
